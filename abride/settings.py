@@ -26,7 +26,7 @@ SECRET_KEY = secret.SECRET
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['driver.abplusscar.com','117.53.44.90:8000']
+ALLOWED_HOSTS = ['driver.abplusscar.com','117.53.44.90']
 
 
 # Application definition
