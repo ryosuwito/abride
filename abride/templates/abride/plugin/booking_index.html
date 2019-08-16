@@ -1,0 +1,103 @@
+{% extends 'abride/base_dashboard.html' %}
+{% block sidebar %}
+  {% include 'abride/sidebar.html' %}
+{% endblock %}
+{% block content %}
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel tile fixed">
+
+                <div class="x_title">
+                <h2>{{title}}</h2> 
+                <br>
+                <p>{{subtitle}}</p>
+                <div class="clearfix"></div>
+                </div>
+              <!-- </form> -->
+              <div class="x_content">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                  <style type="text/css">
+                    .innerTable {
+                      font-weight: 200!important;
+                    }
+                  </style>
+                  <table id="report" class="table table-striped" style="width:100%">
+                    <thead>
+                      <tr>
+                        <th>Booking Date</th>
+                        <th>Client</th>
+                        <th>Destination Address</th>
+                        <th>Pick Up Address</th>
+                        <th>Vehicle Type</th>
+                        <th>Driver</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tableReport">
+                      {% for booking in bookings%}
+                      <tr>
+                        <th style="min-width: 80px" class="innerTable">{{booking.booking_time}}</th>
+                        <th  style="max-width: 200px !important;" class="innerTable">{{booking.member}}
+                          <br/>
+                          <br/>
+                          {{booking.member.phone_number}}
+                        </th>
+                        <th style="max-width: 240px !important;" class="innerTable">{{booking.destination_address}}</th>
+                        <th style="max-width: 240px !important;" class="innerTable">{{booking.pick_up_address}}</th>
+                        {% if booking.vehicle_type > 0 %}
+                          <th class="innerTable">
+                            <img src="/static/assets/build/images/mobil.png" width="auto" height="auto">
+                          </th>
+                        {% else %}
+                          <th class="innerTable">
+                            <img src="/static/assets/build/images/motor.png" width="auto" height="auto">
+                          </th>
+                        {% endif %}
+                        {% if booking.driver %}
+                          <th class="innerTable">{{booking.driver}}</th>
+                        {% else %}
+                          <th class="innerTable">
+                            <button class="btn btn-primary btn-sm">Find Driver</button>
+                          </th>
+                        {% endif %}
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div> <!-- close x content -->
+            </div>
+          </div>
+        <!-- /page content -->
+
+<script src="/static/assets/select/jquery/jquery-3.3.1.min.js"></script>
+<!-- script upload image -->
+<script type="text/javascript">
+    $(document).ready(function () {
+    $('#report').DataTable({
+      "searching": false,
+      "fixedHeader": false,
+      "pageLength": 5,
+      "columnDefs": [{
+        "orderable": true,
+        "scrollX": true
+      }],
+          "dom": 'Bfrtip',
+          "buttons": [
+           {
+               extend: 'csv',
+               footer: true,
+               exportOptions: {
+                    columns: [0,1,2]
+                }
+           },
+           {
+               extend: 'print',
+               exportOptions: {
+                    columns: [0,1,2]
+                }
+           }
+          ]
+    });
+  });
+</script>
+{% endblock %}

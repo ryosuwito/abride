@@ -17,15 +17,21 @@ from django.contrib import admin
 from django.urls import include, path
 
 from rest_framework import routers
+from rest_framework.authtoken import views as auth_views
 
 from booking import views as booking_views
+from driver import views as driver_views
 
 router = routers.DefaultRouter()
 router.register(r'ride_booking', booking_views.RideBookingView)
 router.register(r'delivery_booking', booking_views.DeliveryBookingView)
 
 urlpatterns = [
+	path('driver/', driver_views.index),
+    path('booking/<str:room_name>/', booking_views.room, name='room'),
+    path('ride-booking/', booking_views.ride_index),
+    path('delivery-booking/', booking_views.delivery_index),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', auth_views.obtain_auth_token)
 ]
